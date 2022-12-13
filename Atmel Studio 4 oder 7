@@ -1,0 +1,66 @@
+.include "m328Pdef.inc"
+
+        
+
+
+
+
+
+
+ //ldi r16, 0xFF       ; lade Arbeitsregister r16 mit der Konstanten 0xFF
+ //        out DDRD, r16       ; Inhalt von r16 ins IO-Register DDRB ausgeben
+
+
+
+//         ldi r16, 0b000100 ;   0b11111100 in r16 laden
+//         out PORTD, r16      ; r16 ins IO-Register PORTB ausgeben
+//ende:    rjmp ende           ; Sprung zur Marke „ende“ ? Endlosschleife
+//------------------------------------------------------------------------------
+
+;; ----------------- I/O Ports festlegen
+
+     ldi r16, 0xFF
+
+     out ddrd, r16
+
+     ldi r16, 0x00
+
+     out ddrc, r16
+
+     ldi r16, 0xFF
+
+     out portd, r16
+
+ 
+
+; ----------------- Abfrage T0 ... T7
+
+taster:
+
+     in r16, pinc
+
+     cpi r16, 0x00
+
+     breq 2
+
+     rjmp led_an
+
+     rjmp led_aus
+
+ 
+
+; ----------------- Unterroutinen
+
+led_an:
+
+     out portd, r16
+
+     rjmp taster
+
+ 
+
+led_aus:
+
+     out portd, r16
+
+     rjmp taster
